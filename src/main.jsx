@@ -8,8 +8,8 @@ import { awsConfig } from "./config";
 const cognitoAuthConfig = {
   authority: `https://cognito-idp.${awsConfig.region}.amazonaws.com/${awsConfig.userPoolId}`,
   client_id: awsConfig.clientId,
-  redirect_uri: "http://localhost:5173",
-  post_logout_redirect_uri: "http://localhost:5173",
+  redirect_uri: awsConfig.redirectUri,
+  post_logout_redirect_uri: awsConfig.logoutUri,
   response_type: "code",
   scope: "openid email phone",
 };
