@@ -5,6 +5,8 @@ import { awsConfig } from "./config";
 
 function App() {
   const auth = useAuth();
+  const MAX_FILE_SIZE_MB = 5;
+  const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
   const [categories, setCategories] = useState([]);
   const [categoryName, setCategoryName] = useState("");
@@ -147,7 +149,10 @@ function App() {
         setApiMessage("Please choose a file first.");
         return;
       }
-
+      if (selectedFile.size > MAX_FILE_SIZE_BYTES) {
+        setApiMessage(`File is too large. Maximum allowed size is ${MAX_FILE_SIZE_MB} MB.`);
+        return;
+      }
       if (!selectedCategory) {
         setApiMessage("Please select a category first.");
         return;
@@ -511,14 +516,19 @@ function App() {
 
             <div className="grid md:grid-cols-3 gap-4 items-end">
               <div>
-                <label className="block text-sm text-slate-400 mb-2">
-                  File
-                </label>
-                <input
-                  type="file"
-                  onChange={(e) => setSelectedFile(e.target.files[0])}
-                  className="block w-full text-sm text-slate-300 file:mr-4 file:py-3 file:px-4 file:rounded-2xl file:border-0 file:bg-cyan-400 file:text-slate-950 file:font-bold hover:file:bg-cyan-300"
-                />
+                  <label className="block text-sm text-slate-400 mb-2">
+                    File
+                  </label>
+                  
+                  <input
+                    type="file"
+                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                    className="block w-full text-sm text-slate-300 file:mr-4 file:py-3 file:px-4 file:rounded-2xl file:border-0 file:bg-cyan-400 file:text-slate-950 file:font-bold hover:file:bg-cyan-300"
+                  />
+                  
+                  <p className="text-xs text-slate-500 mt-2">
+                    Maximum file size: 5 MB
+                  </p>
               </div>
 
               <div>
