@@ -272,7 +272,13 @@ function App() {
   const totalStorage = useMemo(() => {
     return files.reduce((total, file) => total + Number(file.size || 0), 0);
   }, [files]);
-
+  const STORAGE_LIMIT_BYTES = 50 * 1024 * 1024;
+  const remainingStorage = STORAGE_LIMIT_BYTES - totalStorage;
+  
+  const storagePercentage = Math.min(
+    (totalStorage / STORAGE_LIMIT_BYTES) * 100,
+    100
+  );
   const displayName = auth.user?.profile?.email?.split("@")[0] || "User";
 
   if (auth.isLoading) {
@@ -421,9 +427,21 @@ function App() {
 
               <div className="rounded-3xl bg-slate-950/70 border border-white/10 p-5">
                 <p className="text-slate-400 text-sm">Storage</p>
+              
                 <p className="text-2xl font-black mt-2">
                   {formatFileSize(totalStorage)}
                 </p>
+              
+                <p className="text-xs text-slate-500 mt-1">
+                  {formatFileSize(remainingStorage)} remaining of 50 MB
+                </p>
+              
+                <div className="mt-4 h-2 w-full rounded-full bg-slate-800 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-cyan-400"
+                    style={{ width: `${storagePercentage}%` }}
+                  ></div>
+                </div>
               </div>
             </div>
           </div>
