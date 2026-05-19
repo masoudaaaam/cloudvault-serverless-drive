@@ -272,7 +272,7 @@ function App() {
   const totalStorage = useMemo(() => {
     return files.reduce((total, file) => total + Number(file.size || 0), 0);
   }, [files]);
-  const STORAGE_LIMIT_BYTES = 50 * 1024 * 1024;
+  const STORAGE_LIMIT_BYTES = 20 * 1024 * 1024;
   const remainingStorage = STORAGE_LIMIT_BYTES - totalStorage;
   
   const storagePercentage = Math.min(
@@ -433,7 +433,7 @@ function App() {
                 </p>
               
                 <p className="text-xs text-slate-500 mt-1">
-                  {formatFileSize(remainingStorage)} remaining of 50 MB
+                  {formatFileSize(remainingStorage)} remaining of 20 MB
                 </p>
               
                 <div className="mt-4 h-2 w-full rounded-full bg-slate-800 overflow-hidden">
